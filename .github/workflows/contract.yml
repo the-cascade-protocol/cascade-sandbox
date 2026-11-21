@@ -34,13 +34,13 @@ jobs:
           set -euo pipefail
           body=""
           if [ -n "$NUMBER" ]; then body="$(gh pr view "$NUMBER" -R "$GITHUB_REPOSITORY" --json body -q .body)"; fi
-          number="$(printf '%s\n' "$body" | sed -nE 's#^Depends-On: https://github.com/jayostis/cascade-runtime-js/pull/([0-9]+)[[:space:]]*$#\1#p' | head -n 1)"
+          number="$(printf '%s\n' "$body" | sed -nE 's#^Depends-On: https://github.com/the-cascade-protocol/cascade-runtime-js/pull/([0-9]+)[[:space:]]*$#\1#p' | head -n 1)"
           if [ -n "$number" ]; then ref="refs/pull/${number}/head"; else ref=main; fi
           echo "the runtime at ${ref}"
           echo "ref=${ref}" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v7
         with:
-          repository: jayostis/cascade-runtime-js
+          repository: the-cascade-protocol/cascade-runtime-js
           ref: ${{ steps.runtime.outputs.ref }}
           path: runtime
           persist-credentials: false
