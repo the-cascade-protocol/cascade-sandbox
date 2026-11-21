@@ -32,7 +32,7 @@ npm test
 `npm run format` fixes what the formatting check in `npm run lint` finds. `npm test` runs in seconds, so run all of it.
 
 A third check reads the people the demo hospitals serve against the vocabulary. It needs a checkout of
-[cascade-vocabulary](https://github.com/jayostis/cascade-vocabulary) at the commit [`vocabulary.json`](vocabulary.json)
+[cascade-vocabulary](https://github.com/the-cascade-protocol/cascade-vocabulary) at the commit [`vocabulary.json`](vocabulary.json)
 pins:
 
 ```sh
@@ -70,13 +70,13 @@ test that pins it.
 
 ## A change that spans two repositories
 
-The `contract` check runs [cascade-runtime-js](https://github.com/jayostis/cascade-runtime-js)'s tests over your branch.
+The `contract` check runs [cascade-runtime-js](https://github.com/the-cascade-protocol/cascade-runtime-js)'s tests over your branch.
 Nothing pins one repository to the other: with no counterpart named, it uses the runtime's `main`. A change the runtime
 must follow is two pull requests, one here and one there. Name the runtime's in this one's description, on a line of
 its own, with the full URL:
 
 ```
-Depends-On: https://github.com/jayostis/cascade-runtime-js/pull/123
+Depends-On: https://github.com/the-cascade-protocol/cascade-runtime-js/pull/123
 ```
 
 The check then runs that pull request's runtime. Editing the description re-runs it; if the named pull request changes

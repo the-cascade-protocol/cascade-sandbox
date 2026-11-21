@@ -5,7 +5,7 @@ connection to a hospital with no account, no vendor's sign-in page and no
 network.
 
 Install it as a git dependency pinned by commit (it builds itself on install):
-`npm install --save-dev github:jayostis/cascade-sandbox#<commit>`.
+`npm install --save-dev github:the-cascade-protocol/cascade-sandbox#<commit>`.
 
 A hospital is one function, `(request: Request) => Promise<Response>`, made from
 that hospital's data and answering at its FHIR base URL: discovery
@@ -35,8 +35,8 @@ then; with none, with each record's latest version).
 
 ## Docs
 
-- [The Cascade hub](https://jayostis.github.io/cascade-runtime-js/): where to go for each thing, and every repository.
-- [FHIR R4 adapter](https://jayostis.github.io/cascade-runtime-js/adapters/fhir-r4/): which parts of the FHIR the sandbox serves a pod carries, and what it drops.
+- [The Cascade hub](https://the-cascade-protocol.github.io/cascade-runtime-js/): where to go for each thing, and every repository.
+- [FHIR R4 adapter](https://the-cascade-protocol.github.io/cascade-runtime-js/adapters/fhir-r4/): which parts of the FHIR the sandbox serves a pod carries, and what it drops.
 
 ## Failing on purpose
 
