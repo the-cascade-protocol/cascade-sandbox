@@ -10,7 +10,7 @@ Report a security problem privately, by email to contact@cascadeprotocol.org, ne
 
 ## Set up
 
-You need Node.js 22 or newer and git.
+You need Node.js 24 or newer and git.
 
 ```sh
 git clone git@github.com:<you>/cascade-sandbox.git
@@ -49,7 +49,6 @@ CI runs on every pull request, and a red check is a reason not to merge.
 
 - **`check`**: `npm run lint`, `npm test`, and the check that the tests read as a specification (see "Commits and pull
   requests").
-- **`node-22`**: the tests on Node 22, the oldest Node supported.
 - **`people`**: the people against the vocabulary, as in "Run the checks".
 - **`pack`**: packs the package.
 - **`contract`**: the runtime's own tests of the rulings a sandbox change could break, run against your sandbox. See

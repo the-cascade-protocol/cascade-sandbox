@@ -6,7 +6,7 @@
   "description": "Pretend SMART on FHIR hospitals, as functions from a Request to a Response, for testing connections with no account and no network.",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "files": [
     "dist/src",
