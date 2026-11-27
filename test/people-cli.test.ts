@@ -59,7 +59,10 @@ describe("Checking the hand-written people against the vocabulary · npm run peo
       const folder = await vocabulary("respaced", async (at) => {
         const file = join(at, ROWAN);
         const person: unknown = JSON.parse(await readFile(file, "utf8"));
-        await writeFile(file, JSON.stringify(person, null, 4).replace(/\n/g, "\r\n"));
+        await writeFile(
+          file,
+          JSON.stringify(person, null, 4).replace(/\n/g, "\r\n"),
+        );
       });
       const { code, said } = await check(folder);
       assert.equal(code, 0, said);
@@ -70,8 +73,14 @@ describe("Checking the hand-written people against the vocabulary · npm run peo
         "fails naming a file the vocabulary changed",
         async (at: string) => {
           const file = join(at, ROWAN);
-          const person = JSON.parse(await readFile(file, "utf8")) as Record<string, unknown>;
-          await writeFile(file, JSON.stringify({ ...person, birthDate: "1979-04-13" }));
+          const person = JSON.parse(await readFile(file, "utf8")) as Record<
+            string,
+            unknown
+          >;
+          await writeFile(
+            file,
+            JSON.stringify({ ...person, birthDate: "1979-04-13" }),
+          );
         },
         "vocabulary/people/rowan-ellery-marsh/person.json differs",
       ],
@@ -79,7 +88,10 @@ describe("Checking the hand-written people against the vocabulary · npm run peo
         "fails naming a file the vocabulary added",
         async (at: string) => {
           await mkdir(join(at, "people", "new-person"));
-          await writeFile(join(at, "people", "new-person", "person.json"), "{}");
+          await writeFile(
+            join(at, "people", "new-person", "person.json"),
+            "{}",
+          );
         },
         "vocabulary/people/new-person/person.json is missing",
       ],

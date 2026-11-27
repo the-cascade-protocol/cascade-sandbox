@@ -12,7 +12,8 @@
     "dist/src",
     "hospitals",
     "people",
-    "vocabulary"
+    "vocabulary",
+    "vocabulary.json"
   ],
   "exports": {
     ".": "./dist/src/index.js",
