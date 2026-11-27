@@ -52,23 +52,28 @@ jobs:
 
   people:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cascade-sandbox
     steps:
       - uses: actions/checkout@v7
         with:
+          path: cascade-sandbox
           persist-credentials: false
-      - id: pin
-        run: |
-          echo "repository=$(node -p "new URL(require('./vocabulary.json').repository).pathname.slice(1)")" >> "$GITHUB_OUTPUT"
-          echo "commit=$(node -p "require('./vocabulary.json').commit")" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v7
+      - name: The vocabulary at its newest main, or the pull request a Depends-On line names, beside this repository
+        id: vocabulary
+        uses: the-cascade-protocol/cascade-bridge-spec/.github/actions/pick@main
         with:
-          repository: ${{ steps.pin.outputs.repository }}
-          ref: ${{ steps.pin.outputs.commit }}
-          path: cascade-vocabulary
-          persist-credentials: false
+          repository: the-cascade-protocol/cascade-vocabulary
+          checkout: cascade-vocabulary
       - uses: actions/setup-node@v5
         with:
           node-version: "24"
           cache: npm
+          cache-dependency-path: cascade-sandbox/package-lock.json
       - run: npm ci
-      - run: npm run people -- --check cascade-vocabulary
+      - name: The check at the picked commit, with the command as it stands
+        env:
+          COMMIT: ${{ steps.vocabulary.outputs.commit }}
+        run: node -e 'const f = "vocabulary.json"; const v = JSON.parse(fs.readFileSync(f, "utf8")); v.commit = process.env.COMMIT; fs.writeFileSync(f, JSON.stringify(v))'
+      - run: npm run people -- --check ../cascade-vocabulary
