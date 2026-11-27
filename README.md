@@ -5,7 +5,9 @@ connection to a hospital with no account, no vendor's sign-in page and no
 network.
 
 Install it as a git dependency pinned by commit (it builds itself on install):
-`npm install --save-dev github:the-cascade-protocol/cascade-sandbox#<commit>`.
+`npm install --save-dev github:the-cascade-protocol/cascade-sandbox#<commit>`,
+or from the release `build-<commit>`, whose `vocabulary.json` names the
+vocabulary commit its hand-written people were checked against.
 
 A hospital is one function, `(request: Request) => Promise<Response>`, made from
 that hospital's data and answering at its FHIR base URL: discovery
@@ -115,10 +117,9 @@ a source folder holding neither.
 Every name and record is synthetic, and comes in three kinds.
 
 - **Hand-written, for the tests**, in `vocabulary/people/`: a copy of the
-  vocabulary's `people/` at the commit `vocabulary.json` pins. Nobody edits it;
-  `npm run people -- <vocabulary checkout>` writes it again from the pin, and
-  `npm run people -- --check <vocabulary checkout>` fails where it differs.
-  Rowan Ellery Marsh is a patient at both hospitals, under a different patient
+  vocabulary's `people/`, which nobody edits. `npm run people` writes it again
+  and CI holds it to the vocabulary's newest main
+  ([`CONTRIBUTING.md`](CONTRIBUTING.md)). Rowan Ellery Marsh is a patient at both hospitals, under a different patient
   id and different record ids at each; Tobias Fenn is at North only. North
   leaves one of Rowan's encounters out of its searches, and serves it only when
   read by id.

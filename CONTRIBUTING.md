@@ -31,12 +31,13 @@ npm test
 
 `npm run format` fixes what the formatting check in `npm run lint` finds. `npm test` runs in seconds, so run all of it.
 
-A third check reads the people the demo hospitals serve against the vocabulary. It needs a checkout of
-[cascade-vocabulary](https://github.com/the-cascade-protocol/cascade-vocabulary) at the commit [`vocabulary.json`](vocabulary.json)
-pins:
+A third check holds `vocabulary/people/`, the copy of the vocabulary's hand-written people, to the vocabulary's
+`people/`. It reads [cascade-vocabulary](https://github.com/the-cascade-protocol/cascade-vocabulary) from the folder
+`CASCADE_VOCABULARY` names, else from `cascade-vocabulary` beside this repository; `npm run people` without `--check`
+copies it again.
 
 ```sh
-npm run people -- --check ../cascade-vocabulary
+npm run people -- --check
 ```
 
 `npm run validate:data` checks every version of every record against FHIR R4 and US Core with the HL7 validator. It runs
@@ -48,8 +49,11 @@ vocabulary, the source or the validator.
 CI runs on every pull request, and a red check is a reason not to merge.
 
 - **`check`**: `npm run lint` and `npm test`.
-- **`people`**: the people against the vocabulary, as in "Run the checks".
-- **`pack`**: packs the package.
+- **`people`**: the people against the vocabulary's newest main, or the vocabulary pull request a `Depends-On:` line
+  names.
+- **`pack`**: packs the package, once `check` and `people` pass, with a `vocabulary.json` naming the vocabulary commit
+  `people` passed with. On `main`, `release` publishes it as the release `build-<commit>`; a push whose checks fail
+  publishes nothing. A hand-started release of an older commit is checked against today's vocabulary.
 - **`contract`**: the runtime's own tests of the rulings a sandbox change could break, run against your sandbox. See
   "A change that spans two repositories".
 - **`validate-data`**: the HL7 validator, when the data changed. It is not a gate, but a failure in it is a real finding.
@@ -65,17 +69,24 @@ test that pins it.
 
 ## A change that spans two repositories
 
-The `contract` check runs [cascade-runtime-js](https://github.com/the-cascade-protocol/cascade-runtime-js)'s tests over your branch.
-Nothing pins one repository to the other: with no counterpart named, it uses the runtime's `main`. A change the runtime
-must follow is two pull requests, one here and one there. Name the runtime's in this one's description, on a line of
-its own, with the full URL:
+Nothing pins one repository to another: with no counterpart named, `contract` runs
+[cascade-runtime-js](https://github.com/the-cascade-protocol/cascade-runtime-js)'s tests from its `main` over your branch,
+and `people` reads the vocabulary's `main`. A change the other side must follow is two pull requests, one here and one
+there, each naming the other in its description on a line of its own, with the full URL:
 
 ```
 Depends-On: https://github.com/the-cascade-protocol/cascade-runtime-js/pull/123
+Depends-On: https://github.com/the-cascade-protocol/cascade-vocabulary/pull/456
 ```
 
-The check then runs that pull request's runtime. Editing the description re-runs it; if the named pull request changes
-after your checks have run, re-run yours with `gh run rerun`.
+A change to a hand-written person is such a pair: the vocabulary's pull request, and one here made by `npm run people`
+with that branch of the vocabulary beside this repository. The vocabulary's pull request runs this repository's check as
+`npm run people -- --check`, in a checkout of it after `npm ci`, with the vocabulary under test beside it as
+`cascade-vocabulary` or named by `CASCADE_VOCABULARY`. Merge the vocabulary's first, then this one: merged the other way
+round, this repository's push run fails `people` and publishes no build until it is re-run.
+
+Editing the description re-runs `contract`; re-run `check` with `gh run rerun`, and re-run either when the named pull
+request changes after your checks have run.
 
 ## Licence
 

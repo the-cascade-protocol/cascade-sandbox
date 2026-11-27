@@ -1,6 +1,7 @@
 {
   "about": "Pretend hospitals with made-up patients, which an app or a test signs in to and pulls records from with no account and no network.",
   "build": [
+    "Checking the hand-written people against the vocabulary · npm run people",
     "Making the generated people from Synthea's output · fromSynthea(), medicationRows(), payerNames(), providerDetails()",
     "The package's people, held to the hospitals' data rules",
     "Tripwire: the generated people as npm run synthea writes them",
