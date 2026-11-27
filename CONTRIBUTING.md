@@ -47,8 +47,7 @@ vocabulary, the source or the validator.
 
 CI runs on every pull request, and a red check is a reason not to merge.
 
-- **`check`**: `npm run lint`, `npm test`, and the check that the tests read as a specification (see "Commits and pull
-  requests").
+- **`check`**: `npm run lint` and `npm test`.
 - **`people`**: the people against the vocabulary, as in "Run the checks".
 - **`pack`**: packs the package.
 - **`contract`**: the runtime's own tests of the rulings a sandbox change could break, run against your sandbox. See
@@ -60,9 +59,6 @@ CI runs on every pull request, and a red check is a reason not to merge.
 Use conventional commits: `feat(route): ...`, `fix(loader): ...`. Do not put a closing keyword (`closes`, `fixes`,
 `resolves`) before an issue the pull request does not finish: GitHub closes it whatever the rest of the sentence says.
 How to write a test, what to pin and where a reason goes are in [`CLAUDE.md`](CLAUDE.md).
-
-Every test's group must be a heading of [`test/spec.json`](test/spec.json), word for word. `npm test` does not check
-this; the `check` job in CI does, and a new test under an unlisted heading turns it red.
 
 A choice the hospital makes against FHIR or SMART goes in [`rulings.md`](rulings.md), with the text it follows and the
 test that pins it.

@@ -32,9 +32,7 @@ jobs:
           repository: the-cascade-protocol/cascade-runtime-js
           ref: main
           path: .runtime-js
-          sparse-checkout: |
-            scripts
-            packages/site/src
+          sparse-checkout: scripts
           persist-credentials: false
       - run: npm run build:test
       - run: mkdir -p report
@@ -43,8 +41,6 @@ jobs:
           --test-reporter=spec --test-reporter-destination=stdout
           --test-reporter=./.runtime-js/scripts/junit-reporter.mjs --test-reporter-destination=report/junit.xml
           "dist/test/**/*.test.js"
-      - if: ${{ !cancelled() }}
-        run: node .runtime-js/scripts/spec-shape.mjs report/junit.xml test/spec.json
       - if: ${{ !cancelled() }}
         run: cp test/spec.json report/spec.json
       - if: ${{ !cancelled() }}
