@@ -82,7 +82,8 @@ Depends-On: https://github.com/the-cascade-protocol/cascade-vocabulary/pull/456
 A change to a hand-written person is such a pair: the vocabulary's pull request, and one here made by `npm run people`
 with that branch of the vocabulary beside this repository. The vocabulary's pull request runs this repository's check as
 `npm run people -- --check`, in a checkout of it after `npm ci`, with the vocabulary under test beside it as
-`cascade-vocabulary` or named by `CASCADE_VOCABULARY`.
+`cascade-vocabulary` or named by `CASCADE_VOCABULARY`. Merge the vocabulary's first, then this one: merged the other way
+round, this repository's push run fails `people` and publishes no build until it is re-run.
 
 Editing the description re-runs `contract`; re-run `check` with `gh run rerun`, and re-run either when the named pull
 request changes after your checks have run.
