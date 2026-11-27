@@ -35,8 +35,8 @@ then; with none, with each record's latest version).
 
 ## Docs
 
-- [The Cascade hub](https://the-cascade-protocol.github.io/cascade-runtime-js/): where to go for each thing, and every repository.
-- [FHIR R4 adapter](https://the-cascade-protocol.github.io/cascade-runtime-js/adapters/fhir-r4/): which parts of the FHIR the sandbox serves a pod carries, and what it drops.
+- [The Cascade hub](https://reference.cascadeprotocol.org/): where to go for each thing, and every repository.
+- [FHIR R4 adapter](https://reference.cascadeprotocol.org/adapters/fhir-r4/): which parts of the FHIR the sandbox serves a pod carries, and what it drops.
 
 ## Failing on purpose
 
