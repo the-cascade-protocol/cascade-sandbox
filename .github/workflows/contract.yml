@@ -55,21 +55,27 @@ jobs:
         working-directory: sandbox
       - run: npm ci
         working-directory: runtime
-      - name: install this build over the pin of every workspace that declares the sandbox
+      - name: install this build over the pin, where the runtime declares the sandbox
         shell: bash
         working-directory: runtime
         run: |
           set -euo pipefail
           npm query .workspace > "$RUNNER_TEMP/workspaces.json"
-          mapfile -t flags < <(node -e '
+          mapfile -t where < <(node -e '
             const fs = require("fs");
+            const declares = (file) => {
+              const p = JSON.parse(fs.readFileSync(file, "utf8"));
+              return "@the-cascade-protocol/sandbox" in { ...p.dependencies, ...p.devDependencies, ...p.optionalDependencies, ...p.peerDependencies };
+            };
+            if (declares("package.json")) { console.log("root"); process.exit(0); }
             for (const w of JSON.parse(fs.readFileSync(process.argv[1], "utf8"))) {
-              const p = JSON.parse(fs.readFileSync(w.location + "/package.json", "utf8"));
-              const all = { ...p.dependencies, ...p.devDependencies, ...p.optionalDependencies, ...p.peerDependencies };
-              if ("@the-cascade-protocol/sandbox" in all) { console.log("-w"); console.log(w.location); }
+              if (declares(w.location + "/package.json")) console.log(w.location);
             }' "$RUNNER_TEMP/workspaces.json")
-          [ "${#flags[@]}" -gt 0 ] || { echo "no workspace declares the sandbox"; exit 1; }
-          npm install --no-save --install-links "${flags[@]}" "$GITHUB_WORKSPACE/sandbox"
+          [ "${#where[@]}" -gt 0 ] || { echo "neither the runtime's root nor a workspace declares the sandbox"; exit 1; }
+          echo "the runtime declares the sandbox in: ${where[*]}"
+          flags=()
+          if [ "${where[0]}" != root ]; then for w in "${where[@]}"; do flags+=(-w "$w"); done; fi
+          npm install --no-save --install-links ${flags[@]+"${flags[@]}"} "$GITHUB_WORKSPACE/sandbox"
       - name: every installed sandbox is this build
         shell: bash
         working-directory: runtime
